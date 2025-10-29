@@ -12,6 +12,37 @@ We investigated Abolishing the SALT Deduction and it's impacts:
 
 ![Congressional District-level Impact of Abolishing the SALT Deduction](salt_impact_by_district.png).
 
+### SNAP Benefits Analysis
+
+Survey-weighted estimates of total SNAP benefits by congressional district across all 50 states plus DC.
+
+![SNAP Benefits by Congressional District](snap_benefits_by_district.png)
+
+**Total SNAP Benefits: $94 billion**
+
+#### Running the SNAP Analysis
+
+1. Generate SNAP data for all districts:
+```bash
+cd /home/baogorek/devl/code-snippets/calculation/snap
+~/envs/pe/bin/python snap_districts.py
+```
+Output: `snap_by_congressional_district.csv`
+
+2. Create the map visualization:
+```bash
+cd /home/baogorek/devl/Congressional-Hackathon-2025/PolicyEngine
+~/envs/pe/bin/python plot_snap_impacts.py
+```
+Output: `snap_benefits_by_district.png`
+
+#### Top States by SNAP Benefits
+- AL: $15.1B
+- AZ: $14.7B
+- CA: $8.6B
+- AK: $5.5B
+- AR: $4.6B
+
 
 ### Animated Transition Idea
 ![Animated SALT Impact](salt_impact_animation.gif)
