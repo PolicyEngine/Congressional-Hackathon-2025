@@ -29,7 +29,7 @@ single_district_states = {
 hex_gdf['cd_id'] = hex_gdf['cd_id'].replace(single_district_states)
 
 merged_gdf = hex_gdf.merge(
-    impact_df[['congressional_district_geoid', 'total_weighted_snap', 'state']],
+    impact_df[['congressional_district_geoid', 'total_weighted_snap', 'state_fips']],
     left_on='cd_id',
     right_on='congressional_district_geoid',
     how='left'
@@ -65,18 +65,18 @@ print(f"Average per district: ${impact_df['total_weighted_snap'].mean():,.0f}")
 print(f"Median per district: ${impact_df['total_weighted_snap'].median():,.0f}")
 
 print(f"\nTop 10 Districts by SNAP Benefits:")
-top_10 = impact_df.nlargest(10, 'total_weighted_snap')[['congressional_district_geoid', 'state', 'total_weighted_snap']]
+top_10 = impact_df.nlargest(10, 'total_weighted_snap')[['congressional_district_geoid', 'state_fips', 'total_weighted_snap']]
 top_10['total_weighted_snap'] = top_10['total_weighted_snap'].apply(lambda x: f"${x:,.0f}")
 print(top_10.to_string(index=False))
 
 print(f"\nBottom 10 Districts by SNAP Benefits:")
-bottom_10 = impact_df.nsmallest(10, 'total_weighted_snap')[['congressional_district_geoid', 'state', 'total_weighted_snap']]
+bottom_10 = impact_df.nsmallest(10, 'total_weighted_snap')[['congressional_district_geoid', 'state_fips', 'total_weighted_snap']]
 bottom_10['total_weighted_snap'] = bottom_10['total_weighted_snap'].apply(lambda x: f"${x:,.0f}")
 print(bottom_10.to_string(index=False))
 
-state_totals = impact_df.groupby('state')['total_weighted_snap'].sum().reset_index()
+state_totals = impact_df.groupby('state_fips')['total_weighted_snap'].sum().reset_index()
 state_totals = state_totals.sort_values('total_weighted_snap', ascending=False)
-state_totals.columns = ['State', 'Total SNAP Benefits']
+state_totals.columns = ['State FIPS', 'Total SNAP Benefits']
 
 print(f"\nTop 10 States by Total SNAP Benefits:")
 top_states = state_totals.head(10).copy()
